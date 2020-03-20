@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="arm" >
+       
+  <!-- materials for visualization -->
+  <xacro:include filename="$(find pr_description)/urdf/materials.urdf.xacro" />
+
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+  <xacro:arg name="arm_prefix" default=""/>
+  <xacro:arg name="armbase_parent" default=""/>
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find pr_description)/urdf/common.gazebo.xacro" />
+
+  <!-- arm -->
+  <xacro:include filename="$(find pr_description)/urdf/arm/arm.urdf.xacro" />
+
+  <!-- load arm -->
+  <xacro:arm prefix="$(arg arm_prefix)"
+    transmission_hw_interface="$(arg transmission_hw_interface)"
+  />
+
+  <link name="$(arg armbase_parent)" />
+
+  <joint name="$(arg armbase_parent)_joint" type="fixed">
+    <parent link="$(arg armbase_parent)" />
+    <child link = "$(arg arm_prefix)aubo_base_link" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>

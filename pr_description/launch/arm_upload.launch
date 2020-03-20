@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+  <arg name="arm_prefix" default="" />
+  <arg name="armbase_parent" default="base_footprint" />
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pr_description)/urdf/arm/arm_robot.urdf.xacro' 
+                transmission_hw_interface:=$(arg transmission_hw_interface) 
+                arm_prefix:=$(arg arm_prefix) 
+                armbase_parent:=$(arg armbase_parent)
+                " />
+</launch>

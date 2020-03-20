@@ -1,0 +1,400 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="prrobot">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="whole_group">
+        <chain base_link="base_footprint" tip_link="ee_link" />
+    </group>
+    <group name="endeffector_group">
+        <link name="ee_link" />
+        <link name="base_stereo" />
+        <link name="stereo_l_stereo_camera_frame" />
+        <link name="stereo_l_stereo_camera_optical_frame" />
+        <link name="stereo_r_stereo_camera_frame" />
+        <link name="stereo_r_stereo_camera_optical_frame" />
+        <link name="stereo_optical_frame" />
+    </group>
+    <group name="base_group">
+        <chain base_link="base_footprint" tip_link="base_link" />
+    </group>
+    <group name="rod_climbing_group">
+        <chain base_link="rod_link" tip_link="rodclimbing_link2" />
+    </group>
+    <group name="arm_group">
+        <chain base_link="aubo_base_link" tip_link="ee_link" />
+    </group>
+
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="whole_ready" group="whole_group">
+        <joint name="foreArm_joint" value="2.0943" />
+        <joint name="rodclimbing_joint1" value="0" />
+        <joint name="rodclimbing_joint2" value="0" />
+        <joint name="rotate_axis_joint" value="0" />
+        <joint name="shoulder_joint" value="0" />
+        <joint name="upperArm_joint" value="-0.5235" />
+        <joint name="wrist1_joint" value="2.6178" />
+        <joint name="wrist2_joint" value="1.5707" />
+        <joint name="wrist3_joint" value="0" />
+        <joint name="x_axis_joint" value="0" />
+        <joint name="y_axis_joint" value="0" />
+    </group_state>
+    <group_state name="arm_ready" group="arm_group">
+        <joint name="foreArm_joint" value="2.0943" />
+        <joint name="shoulder_joint" value="0" />
+        <joint name="upperArm_joint" value="-0.5235" />
+        <joint name="wrist1_joint" value="2.6178" />
+        <joint name="wrist2_joint" value="1.5707" />
+        <joint name="wrist3_joint" value="0" />
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="ee" parent_link="wrist3_Link" group="endeffector_group" />
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="odom" child_link="base_footprint" />
+    <!--PASSIVE JOINT: Purpose: this element is used to mark joints that are not actuated-->
+    <passive_joint name="bl_caster_rotation_joint" />
+    <passive_joint name="bl_caster_wheel_joint" />
+    <passive_joint name="br_caster_rotation_joint" />
+    <passive_joint name="br_caster_wheel_joint" />
+    <passive_joint name="fl_caster_rotation_joint" />
+    <passive_joint name="fl_caster_wheel_joint" />
+    <passive_joint name="fr_caster_rotation_joint" />
+    <passive_joint name="fr_caster_wheel_joint" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="aubo_base_link" link2="base_footprint" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="bl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="bl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="br_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="br_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="fixed_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="rodclimbing_link2" reason="Adjacent" />
+    <disable_collisions link1="aubo_base_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="shoulder_Link" reason="Adjacent" />
+    <disable_collisions link1="aubo_base_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="aubo_base_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="base_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="base_stereo" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="bl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="bl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="br_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="br_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="ee_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="fixed_link" reason="Adjacent" />
+    <disable_collisions link1="base_footprint" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="foreArm_Link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="rod_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="base_link" link2="bl_caster_rotation_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="bl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_link" link2="br_caster_rotation_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="br_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_link" link2="fixed_link" reason="Never" />
+    <disable_collisions link1="base_link" link2="fl_caster_rotation_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_link" link2="fr_caster_rotation_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_link" link2="lidar_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="rod_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="rotate_axis_link" reason="Adjacent" />
+    <disable_collisions link1="base_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="base_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="bl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="bl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="br_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="br_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="ee_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="fixed_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="stereo_l_stereo_camera_optical_frame" reason="Adjacent" />
+    <disable_collisions link1="base_stereo" link2="stereo_r_stereo_camera_optical_frame" reason="Adjacent" />
+    <disable_collisions link1="base_stereo" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="wrist3_Link" reason="Adjacent" />
+    <disable_collisions link1="base_stereo" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="base_stereo" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="bl_caster_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="br_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="br_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="ee_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="fixed_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="foreArm_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="bl_caster_rotation_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="br_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="br_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="ee_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="fixed_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="foreArm_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="bl_caster_wheel_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="br_caster_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="br_caster_rotation_link" link2="ee_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="fixed_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="foreArm_Link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="br_caster_rotation_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="ee_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="fixed_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="foreArm_Link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="br_caster_wheel_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="fixed_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="ee_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="ee_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="wrist3_Link" reason="Adjacent" />
+    <disable_collisions link1="ee_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="ee_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="fl_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="fl_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="foreArm_Link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="fixed_link" link2="x_axis_link" reason="Adjacent" />
+    <disable_collisions link1="fixed_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="fl_caster_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="foreArm_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="fl_caster_rotation_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="foreArm_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="fl_caster_wheel_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="foreArm_Link" link2="fr_caster_rotation_link" reason="Never" />
+    <disable_collisions link1="foreArm_Link" link2="fr_caster_wheel_link" reason="Never" />
+    <disable_collisions link1="foreArm_Link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="foreArm_Link" link2="upperArm_Link" reason="Adjacent" />
+    <disable_collisions link1="foreArm_Link" link2="wrist1_Link" reason="Adjacent" />
+    <disable_collisions link1="foreArm_Link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="foreArm_Link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="fr_caster_wheel_link" reason="Adjacent" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="fr_caster_rotation_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="rod_link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="rodclimbing_link1" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="rodclimbing_link2" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="fr_caster_wheel_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="lidar_link" link2="rod_link" reason="Default" />
+    <disable_collisions link1="lidar_link" link2="rodclimbing_link1" reason="Default" />
+    <disable_collisions link1="lidar_link" link2="rodclimbing_link2" reason="Default" />
+    <disable_collisions link1="lidar_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="lidar_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="lidar_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="lidar_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="lidar_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="rod_link" link2="rodclimbing_link1" reason="Adjacent" />
+    <disable_collisions link1="rod_link" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="rod_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="rod_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="rod_link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="rodclimbing_link1" link2="rodclimbing_link2" reason="Adjacent" />
+    <disable_collisions link1="rodclimbing_link1" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="rodclimbing_link1" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="rodclimbing_link1" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="rodclimbing_link1" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="rodclimbing_link2" link2="rotate_axis_link" reason="Never" />
+    <disable_collisions link1="rodclimbing_link2" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="rodclimbing_link2" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="rodclimbing_link2" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="shoulder_Link" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="stereo_l_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="stereo_r_stereo_camera_optical_frame" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="upperArm_Link" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="rotate_axis_link" link2="y_axis_link" reason="Adjacent" />
+    <disable_collisions link1="shoulder_Link" link2="upperArm_Link" reason="Adjacent" />
+    <disable_collisions link1="shoulder_Link" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="shoulder_Link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="shoulder_Link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="stereo_l_stereo_camera_optical_frame" link2="stereo_r_stereo_camera_optical_frame" reason="Adjacent" />
+    <disable_collisions link1="stereo_l_stereo_camera_optical_frame" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="stereo_l_stereo_camera_optical_frame" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="stereo_l_stereo_camera_optical_frame" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="stereo_l_stereo_camera_optical_frame" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="stereo_l_stereo_camera_optical_frame" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="stereo_r_stereo_camera_optical_frame" link2="wrist1_Link" reason="Never" />
+    <disable_collisions link1="stereo_r_stereo_camera_optical_frame" link2="wrist2_Link" reason="Never" />
+    <disable_collisions link1="stereo_r_stereo_camera_optical_frame" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="stereo_r_stereo_camera_optical_frame" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="stereo_r_stereo_camera_optical_frame" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="upperArm_Link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="upperArm_Link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="wrist1_Link" link2="wrist2_Link" reason="Adjacent" />
+    <disable_collisions link1="wrist1_Link" link2="wrist3_Link" reason="Never" />
+    <disable_collisions link1="wrist1_Link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="wrist1_Link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="wrist2_Link" link2="wrist3_Link" reason="Adjacent" />
+    <disable_collisions link1="wrist2_Link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="wrist2_Link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="wrist3_Link" link2="x_axis_link" reason="Never" />
+    <disable_collisions link1="wrist3_Link" link2="y_axis_link" reason="Never" />
+    <disable_collisions link1="x_axis_link" link2="y_axis_link" reason="Adjacent" />
+</robot>

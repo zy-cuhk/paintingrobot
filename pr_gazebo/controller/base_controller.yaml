@@ -1,0 +1,81 @@
+base_wheels_controller:
+  pid_gains:
+    fl_caster_wheel_joint: {p: 100.0, i: 0.0, d: 1.0}
+    fl_caster_rotation_joint: {p: 100.0, i: 0.0, d: 1.0}
+    fr_caster_wheel_joint: {p: 100.0, i: 0.0, d: 1.0}
+    fr_caster_rotation_joint: {p: 100.0, i: 0.0, d: 1.0}
+    bl_caster_wheel_joint: {p: 100.0, i: 0.0, d: 1.0}
+    bl_caster_rotation_joint: {p: 100.0, i: 0.0, d: 1.0}
+    br_caster_wheel_joint: {p: 100.0, i: 0.0, d: 1.0}
+    br_caster_rotation_joint: {p: 100.0, i: 0.0, d: 1.0}
+
+  type: steered_wheel_base_controller/SteeredWheelBaseController
+
+  base_frame: base_footprint
+
+  linear_speed_limit: 1.5
+  linear_acceleration_limit: 2.5
+  linear_deceleration_limit: 2.5
+
+  yaw_speed_limit: 3.0
+  yaw_acceleration_limit: 3.2
+  yaw_deceleration_limit: 3.2
+
+  cmd_vel_timeout: 1.0  # disabled, as it is on the real platform
+
+  wheels:
+
+    - steering_joint: fl_caster_rotation_joint
+      axle_joint: fl_caster_wheel_joint
+      diameter: 0.095
+    - steering_joint: fr_caster_rotation_joint
+      axle_joint: fr_caster_wheel_joint
+      diameter: 0.095
+    - steering_joint: bl_caster_rotation_joint
+      axle_joint: bl_caster_wheel_joint
+      diameter: 0.095
+    - steering_joint: br_caster_rotation_joint
+      axle_joint: br_caster_wheel_joint
+      diameter: 0.095
+
+
+base_controller_x_axis:
+  type: velocity_controllers/JointVelocityController
+  joint: x_axis_joint
+  pid: {p: 1000.0, i: 0.01, d: 0.1}
+
+base_controller_y_axis:
+  type: velocity_controllers/JointVelocityController
+  joint: y_axis_joint
+  pid: {p: 1000.0, i: 0.01, d: 0.1}
+    
+
+base_controller_rotate_axis:
+  type: velocity_controllers/JointVelocityController
+  joint: rotate_axis_joint
+  pid: {p: 1000.0, i: 0.01, d: 0.1}
+
+
+base_group_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+     - x_axis_joint
+     - y_axis_joint
+     - rotate_axis_joint
+
+  pid_gains:
+    x_axis_joint: {p: 1000.0, i: 0.01, d: 0.1}
+    y_axis_joint: {p: 1000.0, i: 0.01, d: 0.1}
+    rotate_axis_joint: {p: 1000.0, i: 0.01, d: 0.1}
+
+  constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      x_axis_joint: {trajectory: 0.1, goal: 0.1}
+      y_axis_joint: {trajectory: 0.1, goal: 0.1}
+      rotate_axis_joint: {trajectory: 0.1, goal: 0.1}
+
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
+

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://www.ros.org/wiki/xacro/#interface">
+
+  <xacro:property name="mechanical_reduction" value="${624/35 * 80/18}" />
+
+
+  <xacro:macro name="rod_climb_transmission" params="hw_interface">
+    <!-- rodclimbing_joint1 -->
+    <transmission name="tran_rodclimbing_joint1">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="rodclimbing_joint1">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+      </joint>
+      <actuator name="motor_rodclimbing_joint1">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!-- rodclimbing_joint2 -->
+    <transmission name="tran_rodclimbing_joint2">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="rodclimbing_joint2">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+      </joint>
+      <actuator name="motor_rodclimbing_joint2">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+  </xacro:macro>
+
+  
+</robot>

@@ -1,0 +1,397 @@
+<?xml version="1.0"?>
+<robot name="xianquzhe2_base" xmlns:xacro="http://www.ros.org/wiki/xacro">
+ <!-- PROPERTY LIST -->
+    <xacro:property name="M_PI" value="3.1415926"/>
+	
+	
+
+ <!-- Macro for inertia matrix -->
+    <xacro:macro name="sphere_inertial_matrix" params="m r">
+        <inertial>
+            <mass value="${m}" />
+            <inertia ixx="${2*m*r*r/5}" ixy="0" ixz="0"
+                iyy="${2*m*r*r/5}" iyz="0" 
+                izz="${2*m*r*r/5}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_inertial_matrix" params="m r h">
+        <inertial>
+            <mass value="${m}" />
+            <inertia ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
+                iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
+                izz="${m*r*r/2}" /> 
+        </inertial>
+    </xacro:macro>
+
+ <!-- robot -->
+<xacro:macro name="xianquzhe2_base" params="prefix:=xianquzhe2_base">	
+
+
+     <link name="world"/>
+
+<joint name="planar_joint" type="fixed">
+<origin xyz="0 0 0" rpy="0 0 0"/>
+<parent link="world"/>
+<child link="odom"/>
+</joint>
+
+     <link name="odom">
+            <inertial>
+              <origin xyz="0 0 0" rpy="0 0 0" />
+              <mass value="0.0001" />
+              <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+            </inertial>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+            </collision>
+     </link>
+ 
+	  <link name="x_link">
+            <inertial>
+              <origin xyz="0 0 0" rpy="0 0 0" />
+              <mass value="0.0001" />
+              <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+            </inertial>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+            </collision>
+     </link>
+
+     <joint name="x_joint" type="prismatic">
+            <origin xyz="0 0 0" rpy="0 0 0" />        
+            <parent link="odom"/>
+            <child link="x_link" />  
+            <axis xyz="1 0 0" />
+            <limit lower="-10" upper="10" effort="500" velocity="5" />
+     </joint>
+
+     <link name="y_link">
+            <inertial>
+              <origin xyz="0 0 0" rpy="0 0 0" />
+              <mass value="0.0001" />
+              <inertia ixx="0.0005" ixy="0" ixz="0" iyy="0.0005" iyz="0" izz="0.0005" />
+            </inertial>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+            </visual>
+            
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+            </collision>
+     </link>
+
+    <joint name="y_joint" type="prismatic">
+            <origin xyz="0 0 0" rpy="0 0 0" />        
+            <parent link="x_link"/>
+            <child link="y_link" />  
+            <axis xyz="0 1 0" />
+            <limit lower="-10" upper="10" effort="500" velocity="5" />
+     </joint>
+
+     <joint name="r_joint" type="revolute">
+            <origin xyz="0 0 0" rpy="0 0 0" />        
+            <parent link="y_link"/>
+            <child link="base_link" />  
+            <axis xyz="0 0 1" />
+            <limit lower="-8" upper="8" effort="500" velocity="5" />
+     </joint>
+     
+    <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.001"
+        rpy="0 0 0" />
+      <mass
+        value="472.25" />
+      <inertia
+        ixx="100"
+        ixy="0"
+        ixz="0"
+        iyy="100"
+        iyz="0"
+        izz="100" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/xianquzhe2/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/xianquzhe2/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="upper">
+    <inertial>
+      <origin
+        xyz="0 0 0.018077"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="0.01"
+        ixy="0"
+        ixz="0"
+        iyy="0.01"
+        iyz="0"
+        izz="0.01" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/xianquzhe2/upper.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.76863 0.52941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/xianquzhe2/upper.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="upper_joint"
+    type="prismatic">
+    <origin
+      xyz="0 0 1.2874"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="upper" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="3"
+      effort="500"
+      velocity="5" />
+  </joint>
+  <link
+    name="rotator">
+    <inertial>
+      <origin
+        xyz="0.1988 -6.2172E-15 0.021199"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia
+        ixx="0.01"
+        ixy="0"
+        ixz="0"
+        iyy="0.01"
+        iyz="0"
+        izz="0.01" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/xianquzhe2/rotator.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.76863 0.52941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/xianquzhe2/rotator.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rotator_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="upper" />
+    <child
+      link="rotator" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-8"
+      upper="8"
+      effort="500"
+      velocity="5" />
+  </joint>
+
+
+  <link
+    name="arm">
+  </link>
+
+
+  <joint
+    name="arm_joint"
+    type="fixed">
+    <origin
+      xyz="0.3757 0 0.028125"
+      rpy="0 0 0" />
+    <parent
+      link="rotator" />
+    <child
+      link="arm" />
+    <axis
+      xyz="0 0 0" />
+
+
+  </joint>
+  <!-- color -->
+        <gazebo reference="base_link">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+		
+		<gazebo reference="upper">
+            <material>Gazebo/Orange</material>
+        </gazebo>
+
+        <gazebo reference="rotator">
+            <material>Gazebo/Orange</material>
+        </gazebo>
+
+<!-- ros_control plugin-->
+        <transmission name="x_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="x_joint" >
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="x_joint_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+        
+        <transmission name="y_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="y_joint" >
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="y_joint_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+        
+        <transmission name="r_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="r_joint" >
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="r_joint_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+        
+        <transmission name="upper_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="upper_joint" >
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="upper_joint_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+        <transmission name="rotator_joint_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="rotator_joint" >
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="rotator_joint_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+        <!-- ros_control plugin -->
+        <gazebo>
+            <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+                <robotNamespace>/xianquzhe2</robotNamespace>
+                <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+                <legacyModeNS>true</legacyModeNS>
+            </plugin>
+        </gazebo>
+
+<!-- move controller
+    <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
+    </plugin>
+  </gazebo>
+   --> 
+</xacro:macro>
+	
+	
+</robot>

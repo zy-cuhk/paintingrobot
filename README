@@ -1,0 +1,13 @@
+联合仿真：roslaunch xianquzhe bringup_moveit.launch
+moveit中规划组：有底盘 升降 机械臂 3个规划组，分别控制运动。导航可能用不了这个。
+
+
+模型：
+总模型xacro： （package xianquzhe)/urdf/xianquzhe2_arm_gazebo.xacro
+底盘和ur模型： （package xianquzhe)/urdf/base
+传感器模型（插件）： （package xianquzhe)/urdf/sensors
+
+\tips：添加传感器在总模型文件中include相应传感器，再添加关节固定。
+      传感器参数要到相应模型文件中修改。
+
+

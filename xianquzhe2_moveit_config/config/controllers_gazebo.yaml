@@ -1,0 +1,28 @@
+controller_manager_ns: controller_manager
+controller_list:
+  - name: xianquzhe2/arm_joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - joint_ur1
+      - joint_ur2
+      - joint_ur3
+      - joint_ur4
+      - joint_ur5
+      - joint_ur6
+  - name: xianquzhe2/rot_joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - rotator_joint
+      - upper_joint
+  - name: xianquzhe2/move_joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - x_joint
+      - y_joint
+      - r_joint

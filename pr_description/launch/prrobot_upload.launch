@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+  <arg name="chassis_prefix" default="" />
+  <arg name="arm_prefix" default="" />
+  <arg name="lidar_enabled" default="true" />
+  <arg name="zed_enabled" default="true" />
+
+  
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pr_description)/urdf/prrobot.urdf.xacro' 
+                transmission_hw_interface:=$(arg transmission_hw_interface) 
+                chassis_prefix:=$(arg chassis_prefix)
+                arm_prefix:=$(arg arm_prefix) 
+                lidar_enabled:=$(arg lidar_enabled)
+                zed_enabled:=$(arg zed_enabled)" />
+
+    
+  
+
+</launch>

@@ -1,0 +1,15 @@
+<launch>
+  
+    <!-- Launch Gazebo  -->
+    <include file="$(find xianquzhe)/launch/gazebo_world.launch" />
+
+    <!-- ros_control arm launch file -->
+    <include file="$(find xianquzhe)/launch/gazebo_states.launch" />   
+
+    <!-- ros_control trajectory control dof arm launch file -->
+    <include file="$(find xianquzhe)/launch/trajectory_controller.launch" />
+
+    <!-- moveit launch file -->
+    <include file="$(find xianquzhe2_moveit_config)/launch/moveit_planning_execution.launch" />
+
+</launch>

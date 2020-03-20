@@ -1,0 +1,424 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm_base">
+
+
+<xacro:macro name="arm_base" params="prefix">
+
+  <link
+    name="${prefix}ur_base">
+    <inertial>
+      <origin
+        xyz="2.2377E-05 -0.00077067 0.010876"
+        rpy="0 0 0" />
+      <mass
+        value="0.3" />
+      <inertia ixx="0.003" ixy="0" ixz="0" iyy="0.003" iyz="0" izz="0.003" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur_base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur_base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="${prefix}ur1">
+    <inertial>
+      <origin
+        xyz="2.24254092112686E-06 0.00924407030330415 0.0633289509474102"
+        rpy="0 0 0" />
+     <mass
+        value="0.1" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_ur1"
+    type="revolute">
+    <origin
+      xyz="0 0 0.024"
+      rpy="6.7333E-19 -6.3279E-19 1.5437" />
+    <parent
+      link="ur_base" />
+    <child
+      link="ur1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-8"
+      upper="8"
+      effort="500"
+      velocity="5" />
+  </joint>
+  <link
+    name="${prefix}ur2">
+    <inertial>
+      <origin
+        xyz="8.32208912893151E-09 -0.212500710850885 0.0641206565352804"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_ur2"
+    type="revolute">
+    <origin
+      xyz="0 0.0705 0.0652"
+      rpy="-1.5708 1.4185 6.7565E-15" />
+    <parent
+      link="ur1" />
+    <child
+      link="ur2" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-8"
+      upper="8"
+      effort="500"
+      velocity="5" />
+  </joint>
+  <link
+    name="${prefix}ur3">
+    <inertial>
+      <origin
+        xyz="-1.15381520615632E-07 0.184386110165321 0.0500892159125236"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_ur3"
+    type="revolute">
+    <origin
+      xyz="0 -0.425 0"
+      rpy="-3.1416 -8.1879E-16 -2.8131" />
+    <parent
+      link="ur2" />
+    <child
+      link="ur3" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-8"
+      upper="8"
+      effort="500"
+      velocity="5" />
+  </joint>
+  <link
+    name="${prefix}ur4">
+    <inertial>
+      <origin
+        xyz="0.000267047973706976 0.00317555323200225 0.0410553078731857"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_ur4"
+    type="revolute">
+    <origin
+      xyz="0 0.39243 0.007"
+      rpy="3.1416 5.6899E-16 -1.4349" />
+    <parent
+      link="ur3" />
+    <child
+      link="ur4" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-8"
+      upper="8"
+      effort="500"
+      velocity="5" />
+  </joint>
+  <link
+    name="${prefix}ur5">
+    <inertial>
+      <origin
+        xyz="7.8559E-05 -0.0036262 0.041077"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_ur5"
+    type="revolute">
+    <origin
+      xyz="0.00026549 -0.047898 0.0455"
+      rpy="1.5708 1.543 -5.7584E-15" />
+    <parent
+      link="ur4" />
+    <child
+      link="ur5" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-8"
+      upper="8"
+      effort="500"
+      velocity="5" />
+  </joint>
+  <link
+    name="${prefix}ur6">
+    <inertial>
+      <origin
+        xyz="-7.45678185865017E-10 6.22398718608252E-05 0.0157714392599508"
+        rpy="0 0 0" />
+      <mass
+        value="0.1" />
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://xianquzhe/meshes/ur5/ur6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_ur6"
+    type="revolute">
+    <origin
+      xyz="7.9254E-05 0.047451 0.0455"
+      rpy="1.5708 1.5605 -3.1416" />
+    <parent
+      link="ur5" />
+    <child
+      link="ur6" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-8"
+      upper="8"
+      effort="500"
+      velocity="5" />
+  </joint>
+
+ 
+ <!--controller plug     --> 
+<transmission name="tran_ur1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_ur1">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_ur1">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+    <transmission name="tran_ur2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_ur2">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_ur2">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+     <transmission name="tran_ur3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_ur3">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_ur3">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+    <transmission name="tran_ur4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_ur4">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_ur4">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+    <transmission name="tran_ur5">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_ur5">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_ur5">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+     <transmission name="tran_ur6">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_ur6">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_ur6">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+      </xacro:macro>
+</robot>
